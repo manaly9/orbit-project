@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(if \\(Get-Command winget -ErrorAction SilentlyContinue\\) { \"winget: \" + \\(winget --version\\) } else { \"winget: ABSENT\" })"
+    ]
+  }
+}
