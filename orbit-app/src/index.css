@@ -4,6 +4,7 @@
   --pad-x: clamp(1.25rem, 8vw, 10rem);
   --nav-h: 5.5rem;
   --sans: 'Inter', ui-sans-serif, system-ui, 'Segoe UI', Roboto, sans-serif;
+  --display: 'Hanken Grotesk', var(--sans);
 
   color-scheme: dark;
   font-family: var(--sans);
