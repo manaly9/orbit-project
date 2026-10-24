@@ -1,0 +1,154 @@
+.hero {
+  position: relative;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--fg);
+}
+
+.hero__stage {
+  position: absolute;
+  inset: 0;
+}
+
+.hero__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Bias wide-screen crops toward the top so the model's head stays in frame. */
+  object-position: 50% 22%;
+  background: var(--bg);
+}
+
+/* Soft edge shading so white text reads over the bright fire and the nav
+   stays legible; the centre of the frame is left untouched. */
+.hero__shade {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(to bottom, rgb(0 0 0 / 0.42) 0%, rgb(0 0 0 / 0) 24%),
+    linear-gradient(to top, rgb(0 0 0 / 0.5) 0%, rgb(0 0 0 / 0) 34%),
+    radial-gradient(130% 95% at 50% 45%, rgb(0 0 0 / 0) 55%, rgb(0 0 0 / 0.32) 100%);
+}
+
+.hero__overlays {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.hero-overlay {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-width: min(36rem, 40vw);
+  text-shadow: 0 1px 18px rgb(0 0 0 / 0.28);
+}
+
+/* Hidden until GSAP reveals them (autoAlpha toggles visibility). */
+.hero-overlay > * {
+  visibility: hidden;
+}
+
+.hero-overlay__heading {
+  margin: 0;
+  font-size: clamp(2rem, 3.1vw, 3.5rem);
+  font-weight: 500;
+  line-height: 1.04;
+  letter-spacing: -0.035em;
+  color: #fff;
+  text-wrap: balance;
+}
+
+.hero-overlay__sub {
+  margin: 0;
+  font-size: clamp(0.95rem, 1.05vw, 1.125rem);
+  font-weight: 400;
+  line-height: 1.45;
+  letter-spacing: 0.005em;
+  color: rgb(255 255 255 / 0.72);
+}
+
+.hero-overlay--bottom-left {
+  left: var(--pad-x);
+  bottom: clamp(3rem, 12svh, 9rem);
+  text-align: left;
+}
+
+.hero-overlay--upper-left {
+  left: var(--pad-x);
+  top: calc(var(--nav-h) + 8svh);
+  text-align: left;
+}
+
+.hero-overlay--upper-right {
+  right: var(--pad-x);
+  top: calc(var(--nav-h) + 8svh);
+  text-align: right;
+  align-items: flex-end;
+}
+
+.hero-overlay--mid-right {
+  right: var(--pad-x);
+  top: 36svh;
+  text-align: right;
+  align-items: flex-end;
+}
+
+.hero-overlay--upper-center {
+  left: var(--pad-x);
+  right: var(--pad-x);
+  top: calc(var(--nav-h) + 5svh);
+  max-width: none;
+  text-align: center;
+  align-items: center;
+}
+
+/* Portrait screens: a full-height cover crop would cut the product shots to
+   a sliver, so the footage sits in a wide band and the text uses the dark
+   space above and below it, clear of the model and glasses. */
+@media (max-aspect-ratio: 4/5) {
+  .hero__video {
+    inset: auto;
+    top: 52%;
+    left: 50%;
+    width: calc(56svh * 16 / 9);
+    height: 56svh;
+    transform: translate(-50%, -50%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 14%, #000 86%, transparent 100%);
+    mask-image: linear-gradient(to bottom, transparent 0%, #000 14%, #000 86%, transparent 100%);
+  }
+
+  .hero__shade {
+    background: none;
+  }
+
+  .hero-overlay {
+    max-width: calc(100vw - 2 * var(--pad-x));
+    gap: 0.5rem;
+  }
+
+  .hero-overlay__heading {
+    font-size: clamp(1.5rem, 6.6vw, 2.5rem);
+  }
+
+  .hero-overlay__sub {
+    font-size: clamp(0.85rem, 3.6vw, 1.05rem);
+  }
+
+  .hero-overlay--upper-left,
+  .hero-overlay--upper-right,
+  .hero-overlay--mid-right,
+  .hero-overlay--upper-center {
+    top: calc(var(--nav-h) + 2svh);
+  }
+
+  .hero-overlay--bottom-left {
+    bottom: 6svh;
+  }
+}
