@@ -1,7 +1,10 @@
 {
   "permissions": {
     "allow": [
-      "PowerShell(if \\(Get-Command winget -ErrorAction SilentlyContinue\\) { \"winget: \" + \\(winget --version\\) } else { \"winget: ABSENT\" })"
+      "PowerShell(if \\(Get-Command winget -ErrorAction SilentlyContinue\\) { \"winget: \" + \\(winget --version\\) } else { \"winget: ABSENT\" })",
+      "PowerShell(winget install *)",
+      "PowerShell(npx vite --port 5173 --strictPort)",
+      "PowerShell(New-Item *)"
     ]
   }
 }

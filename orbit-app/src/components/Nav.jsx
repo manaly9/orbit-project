@@ -17,7 +17,7 @@ export default function Nav() {
         Early Access
         <span className="nav__cta-icon" aria-hidden="true">
           <svg viewBox="0 0 16 16" width="10" height="10">
-            <path d="M12 4 4 12M4 5.5V12h6.5" fill="none" stroke="currentColor" strokeWidth="1.6" />
+            <path d="M3 8h10M9.5 4.5 13 8l-3.5 3.5" fill="none" stroke="currentColor" strokeWidth="1.6" />
           </svg>
         </span>
       </a>

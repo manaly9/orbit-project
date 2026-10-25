@@ -1,0 +1,153 @@
+/* ================================================================
+   Section 2 — Product Reveal
+   Mirrors the hero's design language and corner-overlay system.
+   GSAP drives --frame-y / --frame-scale on .reveal__stage so the
+   footage shifts to keep text corners clear of the product.
+   ================================================================ */
+
+.reveal {
+  --warm-white: #f6efe6;
+  --reveal-bottom: clamp(2rem, 8.5svh, 5.5rem);
+  --reveal-bottom-side: clamp(3rem, 16svh, 9rem);
+
+  position: relative;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--fg);
+}
+
+/* Landscape framing: GSAP tweens --frame-y (viewport-height share) and
+   --frame-scale so the footage sits low during the macro shot (top corners
+   free) then rises and shrinks for the pull-back (bottom corners free),
+   ending on a smaller centred product ready for the next section. */
+.reveal__stage {
+  position: absolute;
+  inset: 0;
+  transform: translateY(calc(var(--frame-y, 0) * 100vh)) scale(var(--frame-scale, 1));
+  transform-origin: center center;
+}
+
+.reveal__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 50%;
+  background: var(--bg);
+}
+
+/* ---- Corner overlays ---- */
+
+.reveal__overlays {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.reveal-overlay {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  width: 290px;
+  max-width: calc(100vw - 2 * var(--pad-x));
+  color: var(--warm-white);
+  text-shadow:
+    0 1px 2px rgb(0 0 0 / 0.25),
+    0 1px 14px rgb(0 0 0 / 0.3);
+}
+
+/* Hidden until GSAP reveals them (autoAlpha toggles visibility). */
+.reveal-overlay > * {
+  visibility: hidden;
+}
+
+.reveal-overlay__label {
+  margin: 0;
+  font-size: 9px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgb(246 239 230 / 0.7);
+}
+
+.reveal-overlay__heading {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: 0.01em;
+}
+
+.reveal-overlay__body {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: 0.015em;
+  color: rgb(246 239 230 / 0.86);
+}
+
+/* ---- Position modifiers (same corner offsets as the hero) ---- */
+
+.reveal-overlay--top-left,
+.reveal-overlay--top-right {
+  top: calc(var(--nav-h) + 9svh);
+}
+
+.reveal-overlay--bottom-left,
+.reveal-overlay--bottom-right {
+  bottom: var(--reveal-bottom-side);
+}
+
+.reveal-overlay--top-left,
+.reveal-overlay--bottom-left {
+  left: var(--pad-x);
+  text-align: left;
+}
+
+.reveal-overlay--top-right,
+.reveal-overlay--bottom-right {
+  right: var(--pad-x);
+  text-align: right;
+}
+
+/* ---- Portrait screens ----
+   Same approach as the hero: the footage sits in a wide centred band with
+   feathered edges, and the landscape framing is disabled because the video
+   is already constrained. Text uses the dark space above and below. */
+@media (max-aspect-ratio: 4/5) {
+  .reveal__stage {
+    transform: none;
+  }
+
+  .reveal__video {
+    inset: auto;
+    top: 50%;
+    left: 50%;
+    width: calc(52svh * 16 / 9);
+    height: 52svh;
+    transform: translate(-50%, -50%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 14%, #000 86%, transparent 100%);
+    mask-image: linear-gradient(to bottom, transparent 0%, #000 14%, #000 86%, transparent 100%);
+  }
+
+  .reveal {
+    --reveal-bottom-side: 5svh;
+  }
+
+  .reveal-overlay {
+    width: auto;
+    left: var(--pad-x);
+    right: var(--pad-x);
+  }
+
+  .reveal-overlay--top-left,
+  .reveal-overlay--top-right {
+    top: calc(var(--nav-h) + 3svh);
+  }
+}
