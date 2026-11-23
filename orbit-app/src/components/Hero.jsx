@@ -40,7 +40,7 @@ function stillFor(videoTime) {
   return 9.6
 }
 
-export default function Hero() {
+export default function Hero({ onReady }) {
   const sectionRef = useRef(null)
   const videoRef = useRef(null)
 
@@ -50,6 +50,14 @@ export default function Hero() {
       const video = videoRef.current
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
       const rise = reduceMotion ? 0 : 14
+      const markReady = () => {
+        window.clearTimeout(readyTimeout)
+        onReady?.()
+      }
+      const readyTimeout = window.setTimeout(markReady, 10000)
+      video.addEventListener('loadeddata', markReady, { once: true })
+      video.addEventListener('error', markReady, { once: true })
+      if (video.readyState >= 2) markReady()
 
       const opening = gsap.utils.toArray('.hero-opening > *', section)
       const blocks = gsap.utils
@@ -117,6 +125,9 @@ export default function Hero() {
 
       return () => {
         alive = false
+        window.clearTimeout(readyTimeout)
+        video.removeEventListener('loadeddata', markReady)
+        video.removeEventListener('error', markReady)
         stopDriving()
         stopLoading()
       }
